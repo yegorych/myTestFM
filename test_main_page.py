@@ -1,34 +1,46 @@
 import time
 
+import allure
 import pytest
 
 from page_obj.pages.basket_page import BasketPage
 
 @pytest.mark.login_guest
 class TestLoginFromMainPage():
-
+    @allure.feature('провальный тест')
     def test_guest_can_go_to_login_page(self, browser):
-         assert False
+        assert False
 
+    @allure.feature('успешный тест')
     def test_guest_should_see_login_link(self, browser):
-         pass
+        pass
 
-@pytest.mark.skip
+
+@allure.feature('тестовый гость и корзина')
+@allure.story('продукты из корзины отрытой с главной страницы не видны гостю')
 def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
-    link = "http://selenium1py.pythonanywhere.com/"
-    page = BasketPage(browser, link)
-    page.open()
-    page.go_to_basket_page()
-    page.basket_should_be_empty()
-    page.should_be_empty_basket_message()
+    with allure.step('переход на главную страницу сайта'):
+        link = "http://selenium1py.pythonanywhere.com/"
+        page = BasketPage(browser, link)
+        page.open()
+    with allure.step('открытие корзины'):
+        page.go_to_basket_page()
+    with allure.step('проверка что корзина пуста и есть соответствующее сообщение'):
+        page.basket_should_be_empty()
+        page.should_be_empty_basket_message()
 
+@allure.feature('test guest cant see product')
+@allure.story('продукты из корзины отрытой со страницы товара не видны гостю')
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
-    link = "https://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
-    page = BasketPage(browser, link)
-    page.open()
-    page.go_to_basket_page()
-    page.basket_should_be_empty()
-    page.should_be_empty_basket_message()
+    with allure.step('переход на страницу товара'):
+        link = "https://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+        page = BasketPage(browser, link)
+        page.open()
+    with allure.step('открытие корзины'):
+        page.go_to_basket_page()
+    with allure.step('проверка что корзина пуста и есть соответствующее сообщение'):
+        page.basket_should_be_empty()
+        page.should_be_empty_basket_message()
 
 
 
